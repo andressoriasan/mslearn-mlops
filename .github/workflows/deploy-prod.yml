@@ -42,24 +42,30 @@ jobs:
         run: |
           az extension add -n ml -y
 
-      - name: Detect Azure ML workspace
+            - name: Detect Azure ML workspace
         id: detect
         run: |
           RG_NAME=$(az group list --query "[?starts_with(name,'rg-ai300-l')].name | [0]" -o tsv)
+          echo "DEBUG: RG_NAME='$RG_NAME'"
           if [ -z "$RG_NAME" ]; then
+            echo "DEBUG: No resource group found, listing all RGs:"
+            az group list --query "[].name" -o tsv
             echo "No resource group starting with rg-ai300-l found." >&2
             exit 1
           fi
 
           WS_NAME=$(az ml workspace list --resource-group "$RG_NAME" --query "[?starts_with(name,'mlw-ai300-l')].name | [0]" -o tsv)
+          echo "DEBUG: WS_NAME='$WS_NAME'"
           if [ -z "$WS_NAME" ]; then
+            echo "DEBUG: No workspace found, listing all workspaces in $RG_NAME:"
+            az ml workspace list --resource-group "$RG_NAME" --query "[].name" -o tsv
             echo "No workspace starting with mlw-ai300-l found in $RG_NAME." >&2
             exit 1
           fi
 
           SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+          echo "DEBUG: SUBSCRIPTION_ID='$SUBSCRIPTION_ID'"
 
-          # unique, deterministic, region-safe name
           SUFFIX="${WS_NAME#mlw-ai300-l}"
           ENDPOINT_NAME="diabetes-endpoint-${SUFFIX:0:8}"
 
