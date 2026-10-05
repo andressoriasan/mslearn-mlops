@@ -14,7 +14,7 @@ print("MLflow Version:", mlflow.__version__)
 print("Pandas Version:", pd.__version__)
 print("Numpy Version:", np.__version__)
 print("Scikit-learn Version:", LogisticRegression.__module__.split('.')[0])
-print("Matplotlib Version:", plt.__version__)
+
 def main(args):
     # read data
     df = get_data(args.training_data)
