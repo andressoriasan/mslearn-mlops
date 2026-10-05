@@ -11,6 +11,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import roc_curve
 import matplotlib.pyplot as plt
 print("MLflow Version:", mlflow.__version__)
+print("Pandas Version:", pd.__version__)
 def main(args):
     # read data
     df = get_data(args.training_data)
