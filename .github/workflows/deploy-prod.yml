@@ -42,7 +42,7 @@ jobs:
         run: |
           az extension add -n ml -y
 
-            - name: Detect Azure ML workspace
+      - name: Detect Azure ML workspace
         id: detect
         run: |
           RG_NAME="rg-ai300-l5b02c137ed764ed299"
